@@ -1,0 +1,1 @@
+/data/nfs *(rw,no_root_squash)

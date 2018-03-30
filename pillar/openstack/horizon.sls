@@ -1,0 +1,3 @@
+horizon:
+  ALLOWED_HOSTS: ['127.0.0.1', '192.168.56.22']
+  OPENSTACK_HOST: "192.168.56.22"

@@ -1,0 +1,4 @@
+[Nova]
+vendor = RDO Project
+product = OpenStack Nova
+package = 3.el6

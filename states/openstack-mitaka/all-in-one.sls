@@ -1,0 +1,11 @@
+include:
+  - openstack.init.base
+  - openstack.rabbitmq.server
+  - openstack.mysql.server
+  - openstack.keystone.server
+  - openstack.glance.server
+  - openstack.nova.control
+  - openstack.nova.compute
+  - openstack.neutron.server
+  - openstack.neutron.linuxbridge_agent
+  - openstack.horizon.server
