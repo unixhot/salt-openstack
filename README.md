@@ -21,7 +21,7 @@
 
 **1.OpenStack架构**
 
-![架构图](https://github.com/unixhot/saltstack-openstack-yum/blob/master/openstack-arch.png)  
+![架构图](https://github.com/unixhot/saltstack-openstack/blob/master/openstack-arch.png)  
 
 **2.介绍**
 
