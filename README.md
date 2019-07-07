@@ -30,30 +30,52 @@
 
 **使用步骤**
 
-***1.下载SLS,并mv到你设置的file_roots和pillar_roots对应的位置***
-```ObjectiveC
-# git clone https://github.com/unixhot/saltstack-openstack-yum
-# cd saltstack-openstack-yum/
-# mv states/* /srv/salt/base
-# mv pillar/* /srv/pillar/base
+## 0.系统初始化(必备)
+1. 设置主机名！！！
+```
+[root@linux-node1 ~]# cat /etc/hostname 
+linux-node1.example.com
+
+[root@linux-node2 ~]# cat /etc/hostname 
+linux-node2.example.com
+
+[root@linux-node3 ~]# cat /etc/hostname 
+linux-node3.example.com
+
+```
+2. 设置/etc/hosts保证主机名能够解析
+```
+[root@linux-node1 ~]# cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+192.168.56.11 linux-node1 linux-node1.example.com
+192.168.56.12 linux-node2 linux-node2.example.com
+192.168.56.13 linux-node3 linux-node3.example.com
+
+```
+3. 关闭SELinux和防火墙
+```
+[root@linux-node1 ~]# vim /etc/sysconfig/selinux
+SELINUX=disabled #修改为disabled
 ```
 
-
-1.设置无密码登录
-[root@linux-node1 ~]# ssh-keygen -t rsa
-
-```ObjectiveC
-[root@linux-node1 ~]# yum install -y salt-ssh
-[root@linux-node1 ~]# ssh-copy-id linux-node1
-[root@linux-node1 ~]# ssh-copy-id linux-node2
+4.关闭NetworkManager和防火墙开启自启动
+```
+[root@linux-node1 ~]# systemctl disable firewalld
+[root@linux-node1 ~]# systemctl disable NetworkManager
 ```
 
-2.安装SaltStack（使用SSH方式管理）
-```ObjectiveC
-[root@linux-node1 ~]# yum install -y salt-ssh
+## 2.安装Salt-SSH并克隆本项目代码。
+
+2.1 安装Salt SSH（注意：老版本的Salt SSH不支持Roster定义Grains，需要2017.7.4以上版本）
+```
+[root@linux-node1 ~]# yum install https://mirrors.aliyun.com/epel/epel-release-latest-7.noarch.rpm
+[root@linux-node1 ~]# yum install -y https://mirrors.aliyun.com/saltstack/yum/redhat/salt-repo-latest-2.el7.noarch.rpm
+[root@linux-node1 ~]# sed -i "s/repo.saltstack.com/mirrors.aliyun.com\/saltstack/g" /etc/yum.repos.d/salt-latest.repo
+[root@linux-node1 ~]# yum install -y salt-ssh git unzip
 ```
 
-3.设置SaltStack管理其它节点
+2.2 设置SaltStack管理其它节点
 ```ObjectiveC
 [root@linux-node1 ~]# vim /etc/salt/roster 
 linux-node1:
@@ -67,24 +89,28 @@ linux-node2:
   priv: /root/.ssh/id_rsa
 ```
 
-4.设置状态文件存放目录
-```ObjectiveC
+2.3 设置状态文件存放目录
+```
 [root@linux-node1 ~]# vim /etc/salt/master
 file_roots:
   base:
-    - /srv/salt
+    - /srv/salt/base
 
 pillar_roots:
   base:
-    - /srv/pillar
-```
-
-5.克隆salt-openstack
-```ObjectiveC
+    - /srv/pillar/base
+[root@linux-node1 ~]# mkdir -p /srv/salt/base
+[root@linux-node1 ~]# mkdir -p /srv/pillar/base
 
 ```
 
+2.4 克隆项目代码
+```
+# git clone https://github.com/unixhot/salt-openstack.git
+# cd salt-openstack/
 
+
+```
 
 
 
