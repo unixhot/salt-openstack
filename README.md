@@ -101,13 +101,12 @@ linux-node2:
 [root@linux-node1 ~]# vim /etc/salt/master
 file_roots:
   base:
-    - /srv/salt/base
+    - /srv/salt/
 
 pillar_roots:
   base:
-    - /srv/pillar/base
-[root@linux-node1 ~]# mkdir -p /srv/salt/base
-[root@linux-node1 ~]# mkdir -p /srv/pillar/base
+    - /srv/pillar
+[root@linux-node1 ~]# mkdir -p /srv/{salt,pillar}
 
 ```
 
