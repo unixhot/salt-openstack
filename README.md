@@ -1,20 +1,18 @@
-# SaltStack 自动化部署OpenStack Queens（未更新）
+# SaltStack 自动化部署OpenStack Stein
 前言
 ====
 
 **诞生记**
-
     - 首先：之前编写了SaltStack自动化部署OpenStackI版：使用的源码包的方式
     - 因为：有用户反映安装起来比较繁琐，加上pip源网络的问题，很多朋友自动化部署有问题。
-    - 所以：本次重新使用yum安装的方式重新编写了一遍。
+    - 所以：本次重新使用yum安装的方式重新编写了一遍，2019年更新到了Stein版本。
     - 最后：如有建议欢迎反馈。QQ：57459267
 
 **友情提示**
 
-    - 本文的使用对象为熟悉OpenStack，可以手动完成OpenStack的部署的用户。
-    如果不熟悉OpenStack的用户，可以参考我录制的
-   - 《自动化运维之SaltStack实践实践》课程: [http://edu.51cto.com/course/course_id-2354.html]
-   - 《OpenStack企业私有云实践》课程: [http://edu.51cto.com/course/course_id-2187.html]
+- 本文的使用对象为熟悉OpenStack，可以手动完成OpenStack的部署的用户。如果不熟悉OpenStack的用户，可以参考我录制的
+  - 《基于SaltStack的自动化运维实践》课程: [http://www.devopsedu.com/front/couinfo/49]
+  - 《基于OpenStack构建企业私有云实践》课程: [http://www.devopsedu.com/front/couinfo/101]
 
 使用方式
 ====
@@ -25,7 +23,7 @@
 
 **2.介绍**
 
-    - 1.每个服务均有一个目录存放SLS文件。每个目录下均有files目录，用来存放源文件。
+    - 1.每个服务均有一个目录存放SLS文件。每个目录下均有files目录，用来存放模板文件和脚本。
     - 2.每个服务均有一个Pillar文件，主要定义和配置相关的如IP地址、网络接口、用户名和密码等。
 
 **使用步骤**
