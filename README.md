@@ -30,8 +30,9 @@
 
 **使用步骤**
 
-## 0.系统初始化(必备)
-1. 设置主机名！！！
+## 1.系统初始化(必备)
+
+1.1 设置主机名！！！
 ```
 [root@linux-node1 ~]# cat /etc/hostname 
 linux-node1.example.com
@@ -43,7 +44,7 @@ linux-node2.example.com
 linux-node3.example.com
 
 ```
-2. 设置/etc/hosts保证主机名能够解析
+1.2 设置/etc/hosts保证主机名能够解析
 ```
 [root@linux-node1 ~]# cat /etc/hosts
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
@@ -53,13 +54,13 @@ linux-node3.example.com
 192.168.56.13 linux-node3 linux-node3.example.com
 
 ```
-3. 关闭SELinux和防火墙
+1.3 关闭SELinux和防火墙
 ```
 [root@linux-node1 ~]# vim /etc/sysconfig/selinux
 SELINUX=disabled #修改为disabled
 ```
 
-4.关闭NetworkManager和防火墙开启自启动
+1.4 关闭NetworkManager和防火墙开启自启动
 ```
 [root@linux-node1 ~]# systemctl disable firewalld
 [root@linux-node1 ~]# systemctl disable NetworkManager
@@ -67,7 +68,15 @@ SELINUX=disabled #修改为disabled
 
 ## 2.安装Salt-SSH并克隆本项目代码。
 
-2.1 安装Salt SSH（注意：老版本的Salt SSH不支持Roster定义Grains，需要2017.7.4以上版本）
+2.1 设置部署节点到其它所有节点的SSH免密码登录（包括本机）
+```bash
+[root@linux-node1 ~]# ssh-keygen -t rsa
+[root@linux-node1 ~]# ssh-copy-id linux-node1
+[root@linux-node1 ~]# ssh-copy-id linux-node2
+[root@linux-node1 ~]# ssh-copy-id linux-node3
+```
+
+2.2 安装Salt SSH（注意：老版本的Salt SSH不支持Roster定义Grains，需要2017.7.4以上版本）
 ```
 [root@linux-node1 ~]# yum install https://mirrors.aliyun.com/epel/epel-release-latest-7.noarch.rpm
 [root@linux-node1 ~]# yum install -y https://mirrors.aliyun.com/saltstack/yum/redhat/salt-repo-latest-2.el7.noarch.rpm
@@ -75,7 +84,7 @@ SELINUX=disabled #修改为disabled
 [root@linux-node1 ~]# yum install -y salt-ssh git unzip
 ```
 
-2.2 设置SaltStack管理其它节点
+2.3 设置SaltStack管理其它节点
 ```ObjectiveC
 [root@linux-node1 ~]# vim /etc/salt/roster 
 linux-node1:
@@ -89,7 +98,7 @@ linux-node2:
   priv: /root/.ssh/id_rsa
 ```
 
-2.3 设置状态文件存放目录
+2.4 设置状态文件存放目录
 ```
 [root@linux-node1 ~]# vim /etc/salt/master
 file_roots:
@@ -104,14 +113,11 @@ pillar_roots:
 
 ```
 
-2.4 克隆项目代码
+2.5 克隆项目代码
 ```
 # git clone https://github.com/unixhot/salt-openstack.git
 # cd salt-openstack/
-
-
 ```
-
 
 
 **2.修改Pillar目录的各个服务的配置**
